@@ -26,7 +26,7 @@ async def test_edge_detect(dut):
                 await RisingEdge(dut.clk)
             assert dut.leading_edge_detect == 1
 
-            # wait for another full clock cycle 
+            # wait for another full clock cycle
             await RisingEdge(dut.clk)
             await FallingEdge(dut.clk)
 

@@ -6,6 +6,14 @@ module edge_detect (
     output wire             leading_edge_detect
     );
 
-    assign leading_edge_detect = 0;
+   reg [2:0] q;
 
+   // q[1] & (q[1] != q[2])    ===
+   // q[1] & (q[1] ^ q[2])     ===  // per definition of !=
+   // q[1] ? (q[1] ^ q[2]) : 0 ===  // case analysis
+   // q[1] ? (!q[2]) : 0       ===  // propagate knowledge
+   // q[1] & !q[2]                  // simplify
+
+   assign leading_edge_detect = !q[2] & q[1];
+   always @(posedge clk) q <= {q[1:0],signal};
 endmodule
